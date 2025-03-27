@@ -25,7 +25,23 @@ class WorkSpaceController
          ], 200);
       } catch (Exception $e) {
          return new JsonResponse([
-            'message' => $e->getMessage(),
+            'message' => "You don't have a WorkSpace yet, let create one!",
+         ], 400); 
+      }
+   }
+
+   public function getWorkSpacesByIDWorkSpace(Request $request, string $IDWorkSpace): JsonResponse
+   {
+      try {
+         $IDUser = $request->get('USER')['IDUser'];
+         $workspaces = $this->WSService->getWorkSpaceByIDWS($IDWorkSpace, $IDUser);
+         return new JsonResponse([
+            'message' => 'WorkSpace List',
+            'data' => $workspaces
+         ], 200);
+      } catch (Exception $e) {
+         return new JsonResponse([
+            'message' => "You don't have a WorkSpace yet, let create one!",
          ], 400);
       }
    }
@@ -41,7 +57,7 @@ class WorkSpaceController
          ], 201);
       } catch (Exception $e) {
          return new JsonResponse([
-            'message' => $e->getMessage(),
+            'message' => "Can't create WorkSpace",
          ], 400);
       }
    }
