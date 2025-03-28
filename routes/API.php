@@ -4,6 +4,7 @@ use WorkSpace\Controller\AuthController;
 use WorkSpace\Controller\SystemController;
 use WorkSpace\Controller\WorkSpaceController;
 use WorkSpace\Controller\ProjectController;
+use WorkSpace\Controller\NoteController;
 use Middleware\Authenticate;
 
 return function (Router $router) {
@@ -37,5 +38,11 @@ return function (Router $router) {
 
    $router->group(['prefix' => 'project', 'middleware' => 'auth'], function (Router $router) {
       $router->post('/add', [ProjectController::class, 'createNewProject']);
+   });
+   
+   //--------------------------------------------------PROJECT--------------------------------------------------//
+
+   $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
+      $router->put('/modify/{IDNote}', [NoteController::class, 'ModifyNote']);
    });
 };
