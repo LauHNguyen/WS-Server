@@ -24,7 +24,7 @@ class NoteController{
                 'data' => $response
             ], );
         } catch (Exception $e) {
-            return new JsonResponse(['error' => $e->getMessage()], 400);
+            return new JsonResponse(['message' => $e->getMessage()], 400);
         }
     }
 }
