@@ -53,6 +53,3 @@ Hoặc nếu dùng XAMPP :
 ### AUTHOR
 - **NV-Phong**
 - Email: `ui.engineer.workspace@gmail.com`
-
-### CONTRIBUTORS
-- LauHNguyen
