@@ -39,32 +39,21 @@ return function (Router $router) {
    });
 
    //--------------------------------------------------NOTE--------------------------------------------------//
-
+   
    $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
       $router->post('/',[NoteController::class,'createNotewithWidget']);
+      $router->put('/modify/{IDNote}', [NoteController::class, 'ModifyNote']);
    });
 
    //--------------------------------------------------PROJECT--------------------------------------------------//
 
    $router->group(['prefix' => 'project', 'middleware' => 'auth'], function (Router $router) {
       $router->post('/add', [ProjectController::class, 'createNewProject']);
-   });
-   
-   //--------------------------------------------------PROJECT--------------------------------------------------//
-
-   $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
-      $router->put('/modify/{IDNote}', [NoteController::class, 'ModifyNote']);
-   });
-   
-   //--------------------------------------------------PROJECT--------------------------------------------------//
-
-   $router->group(['prefix' => 'widget', 'middleware' => 'auth'], function (Router $router) {
       $router->get('/{IDWorkSpace}', [WidgetController::class, 'GetAllWidgets']);
       $router->put('/{IDWorkSpace}/{IDWidget}', [WidgetController::class, 'ModifyWidget']);
    });
 
 //--------------------------------------------------TEAM--------------------------------------------------//
-
 
    $router->group(['prefix'=> 'team','middleware' => 'auth'], function (Router $router) {
         $router->get('/', [TeamController::class, 'getTeamsByIDUser']);
