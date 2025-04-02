@@ -30,4 +30,22 @@ class TeamController
             ], 400);
         }
     }
+
+    // Tạo một team mới
+   public function createTeam(Request $request): JsonResponse
+   {
+      try {
+         $IDLeader = $request->get('USER')['IDUser'];
+         $team = $this->teamService->createTeam($request->json()->all(), $IDLeader);
+         return new JsonResponse([
+            'message' => 'Created Team Successfully',
+            'data' => $team
+         ], 201);
+      } catch (Exception $e) {
+         return new JsonResponse([
+            'message' => $e->getMessage(),
+         ], 400);
+      }
+   }
+
 }
