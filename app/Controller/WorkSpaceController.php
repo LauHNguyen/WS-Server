@@ -61,4 +61,19 @@ class WorkSpaceController
          ], 400);
       }
    }
+   public function deleteWorkSpace(Request $request, $IDWorkspace): JsonResponse
+   {
+      try {
+         $IDUser = $request->attributes->get('USER')['IDUser'];
+         $result = $this->WSService->deleteWorkSpace($IDWorkspace, $IDUser);
+         return new JsonResponse([
+            'message' => $result['message']
+         ], 200);
+      } catch (Exception $e) {
+         return new JsonResponse([
+            'message' => $e->getMessage(),
+         ], 400);
+      }
+   }
+
 }

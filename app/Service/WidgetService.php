@@ -4,18 +4,17 @@ use Exception;
 use WorkSpace\Model\Widget;
 use WorkSpace\Model\WorkSpace;
 
-
 class WidgetService
 {
-    private $widget;
-    private $workSpace;
+    private $widgetModel;
+    private $workSpaceModel;
 
     private $noteService;
 
-    public function __construct(Widget $widget, WorkSpace $workSpace, NoteService $noteService)
+    public function __construct(Widget $widgetModel, WorkSpace $workSpaceModel, NoteService $noteService)
     {
-        $this->widget = $widget;
-        $this->workSpace = $workSpace;
+        $this->widgetModel = $widgetModel;
+        $this->workSpaceModel = $workSpaceModel;
         $this->noteService = $noteService;
     }
 
@@ -35,7 +34,7 @@ class WidgetService
                 throw new Exception($message);
             }
         }
-        $ws = $this->workSpace->find($data['IDWorkSpace']);
+        $ws = $this->workSpaceModel->find($data['IDWorkSpace']);
         if (!$ws) {
             throw new Exception('WorkSpace not found');
         }
@@ -72,7 +71,7 @@ class WidgetService
 
     public function updateIDWidgetChild($IDWidget)
     {
-        $widget = $this->widget::find($IDWidget);
+        $widget = $this->widgetModel::find($IDWidget);
         $note = $this->noteService->findNote('IDWidget',$IDWidget);
         $widget->update([
             "IDWidgetChild" => $note->IDNote,
@@ -82,4 +81,65 @@ class WidgetService
         return $widget;
     }
 
+    public function GetAllWidgets($IDWorkSpace)
+    {
+        try {
+            $workSpace = $this->workSpaceModel->find($IDWorkSpace);
+            if (empty($workSpace)) {
+                throw new Exception("WorkSpace not found");
+            }
+
+            $allWidgets = $this->widgetModel
+                ->where('IDWorkSpace', $IDWorkSpace)
+                ->where('IsDeleted', false)
+                ->get();
+            return $allWidgets;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    public function ModifyWidget($data, $IDWorkSpace, $IDWidget){
+        try {
+            $workSpace = $this->workSpaceModel->find($IDWorkSpace);
+            if (empty($workSpace)) {
+                throw new Exception("WorkSpace not found");
+            }
+
+            $modifyWidget = $this->widgetModel->find($IDWidget);
+            if (empty($modifyWidget)) {
+                throw new Exception("Widget not found");
+            }
+
+            if(!empty($data['Z_Index'])){
+                $modifyWidget->Z_Index = $data['Z_Index'];
+            }
+
+            if(!empty($data['Width'])){
+                $modifyWidget->Width = $data['Width'];
+            }
+
+            if(!empty($data['Height'])){
+                $modifyWidget->Height = $data['Height'];
+            }
+
+            if(!empty($data['Color'])){
+                $modifyWidget->Color = $data['Color'];
+            }
+
+            if(!empty($data['PositionX'])){
+                $modifyWidget->PositionX = $data['PositionX'];
+            }
+
+            if(!empty($data['PositionY'])){
+                $modifyWidget->PositionY = $data['PositionY'];
+            }
+
+            $modifyWidget->save();
+
+            return $modifyWidget;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
 }

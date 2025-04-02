@@ -48,4 +48,18 @@ class NoteController
          ], 400);
       }
    }
+  
+  public function ModifyNote(Request $request, $IDNote){
+        try {
+            $IDUser = $request->attributes->get('USER')['IDUser'];
+            $data = $request->json()->all();
+            $response = $this->noteService->ModifyNote($data, $IDUser, $IDNote);
+            return new JsonResponse([
+                'message' => 'Modify Note Successfully',
+                'data' => $response
+            ], );
+        } catch (Exception $e) {
+            return new JsonResponse(['message' => $e->getMessage()], 400);
+        }
+    }
 }

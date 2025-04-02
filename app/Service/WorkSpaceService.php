@@ -66,4 +66,23 @@ class WorkSpaceService
          ->where('IsDeleted', false)
          ->first();
    }
+   public function deleteWorkSpace($IDWorkspace, $IDUser)
+   {
+    // Tìm workspace dựa trên IDWorkspace và IDUser
+    $workSpace = WorkSpace::where('IDWorkspace', $IDWorkspace)
+        ->where('IDUser', $IDUser)
+        ->where('IsDeleted', false)
+        ->first();
+
+    // Nếu không tìm thấy workspace, ném ra ngoại lệ
+    if (!$workSpace) {
+        throw new Exception('WorkSpace not found or already deleted');
+    }
+
+    // Đánh dấu workspace là đã xóa
+    $workSpace->IsDeleted = true;
+    $workSpace->save();
+
+    return ['message' => 'WorkSpace deleted successfully'];
+}
 }
