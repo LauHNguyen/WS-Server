@@ -25,7 +25,7 @@ class WorkSpaceController
          ], 200);
       } catch (Exception $e) {
          return new JsonResponse([
-            'message' => "You don't have a WorkSpace yet, let create one!",
+            'message' => "You don't have a WorkSpace yet, let create one! ",
          ], 400); 
       }
    }
@@ -41,7 +41,7 @@ class WorkSpaceController
          ], 200);
       } catch (Exception $e) {
          return new JsonResponse([
-            'message' => "You don't have a WorkSpace yet, let create one!",
+            'message' => "You don't have a WorkSpace yet, let create one! ",
          ], 400);
       }
    }
@@ -57,7 +57,7 @@ class WorkSpaceController
          ], 201);
       } catch (Exception $e) {
          return new JsonResponse([
-            'message' => "Can't create WorkSpace",
+            'message' => $e->getMessage(),
          ], 400);
       }
    }

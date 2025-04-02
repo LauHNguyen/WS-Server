@@ -3,6 +3,7 @@ use Illuminate\Routing\Router;
 use WorkSpace\Controller\AuthController;
 use WorkSpace\Controller\SystemController;
 use WorkSpace\Controller\WorkSpaceController;
+use WorkSpace\Controller\NoteController;
 use Middleware\Authenticate;
 
 return function (Router $router) {
@@ -31,4 +32,11 @@ return function (Router $router) {
       $router->post('/', [WorkSpaceController::class, 'createWorkSpace']);
       $router->get('/{IDWorkSpace}', [WorkSpaceController::class,'getWorkSpacesByIDWorkSpace']);
    });
+
+   //--------------------------------------------------NOTE--------------------------------------------------//
+
+   $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
+      $router->post('/',[NoteController::class,'createNotewithWidget']);
+   });
+   
 };

@@ -30,7 +30,7 @@ class WorkSpaceService
          ->first();
 
       if (!$workSpace) {
-         throw new Exception('Không tìm thấy WorkSpace');
+         throw new Exception('WorkSpace not found');
       }
 
       return $workSpace;
