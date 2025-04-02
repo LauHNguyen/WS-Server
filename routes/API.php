@@ -34,7 +34,14 @@ return function (Router $router) {
    $router->group(['prefix' => 'workspace', 'middleware' => 'auth'], function (Router $router) {
       $router->get('/', [WorkSpaceController::class, 'getWorkSpacesByIDUser']);
       $router->post('/', [WorkSpaceController::class, 'createWorkSpace']);
+      $router->get('/{IDWorkSpace}', [WorkSpaceController::class,'getWorkSpacesByIDWorkSpace']);
       $router->delete('/{id}', [WorkSpaceController::class, 'deleteWorkSpace']);
+   });
+
+   //--------------------------------------------------NOTE--------------------------------------------------//
+
+   $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
+      $router->post('/',[NoteController::class,'createNotewithWidget']);
    });
 
    //--------------------------------------------------PROJECT--------------------------------------------------//
@@ -70,4 +77,3 @@ return function (Router $router) {
         $router->post('/create', [StatusController::class, 'createStatus']);
       });
 };
-

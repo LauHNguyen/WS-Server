@@ -5,7 +5,7 @@ class Widget extends Entity
 {
    protected $table = 'WIDGET';
    protected $primaryKey = 'IDWidget';
-   protected $fillable = ['IDWorkSpace', 'WidgetType', 'Z_Index', 'Width', 'Height', 'Color', 'PositionX', 'PositionY', 'IsDeleted'];
+   protected $fillable = ['IDWorkSpace', 'WidgetType', 'Z_Index', 'Width', 'Height', 'Color', 'PositionX', 'PositionY', 'IsDeleted', 'IDWidgetChild'];
    protected $attributes = [
       'WidgetType' => 'Note'
    ];

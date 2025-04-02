@@ -19,6 +19,22 @@ class WorkSpaceService
             ['IsDeleted', false]
          ])->get();
    }
+   public function getWorkSpaceByIDWS($IDWorkSpace, $IDUser)
+   {
+      $workSpace = WorkSpace::select('IDWorkSpace', 'WorkSpaceName', 'WorkSpaceDescription')
+         ->where([
+               ['IDWorkSpace', $IDWorkSpace],
+               ['IDUser', $IDUser],
+               ['IsDeleted', false]
+         ])
+         ->first();
+
+      if (!$workSpace) {
+         throw new Exception('WorkSpace not found');
+      }
+
+      return $workSpace;
+   }
 
    public function createWorkSpace($data, $IDUser)
    {

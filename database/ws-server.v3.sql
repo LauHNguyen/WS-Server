@@ -116,8 +116,9 @@ CREATE TABLE WIDGET
    PositionX            INT NOT NULL,
    PositionY            INT NOT NULL,
    IsDeleted            BOOLEAN NOT NULL DEFAULT FALSE,
+   IDWidgetChild        CHAR(36) ,
    FOREIGN KEY (IDWorkSpace) REFERENCES WORKSPACE (IDWorkSpace),
-   CONSTRAINT UNIQUE_Z_Index UNIQUE (IDWidget, Z_Index)
+   CONSTRAINT UNIQUE_Z_Index UNIQUE (IDWorkSpace, Z_Index)
 )
 
 CREATE TABLE NOTE

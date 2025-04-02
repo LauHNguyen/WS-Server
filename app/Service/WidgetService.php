@@ -9,10 +9,76 @@ class WidgetService
     private $widgetModel;
     private $workSpaceModel;
 
-    public function __construct(Widget $widgetModel, WorkSpace $workSpaceModel)
+    private $noteService;
+
+    public function __construct(Widget $widgetModel, WorkSpace $workSpaceModel, NoteService $noteService)
     {
         $this->widgetModel = $widgetModel;
         $this->workSpaceModel = $workSpaceModel;
+        $this->noteService = $noteService;
+    }
+
+    public function createWidget($data)
+    {
+        $requiredFields = [
+            'IDWorkSpace' => 'IDWorkSpace is required',
+            'WidgetType' => 'WidgetType is required',
+            'Width' => 'Width is required',
+            'Height' => 'Height is required',
+            'Color' => 'Color is required',
+            'PositionX' => 'PositionX is required',
+            'PositionY' => 'PositionY is required',
+        ];
+        foreach ($requiredFields as $field => $message) {
+            if (empty($data[$field])) {
+                throw new Exception($message);
+            }
+        }
+        $ws = $this->workSpaceModel->find($data['IDWorkSpace']);
+        if (!$ws) {
+            throw new Exception('WorkSpace not found');
+        }
+        $maxZ_Index = $this->findMaxZ_Index($data["IDWorkSpace"]);
+        $widget = Widget::create([
+            "IDWorkSpace" => $data["IDWorkSpace"],
+            "WidgetType" => $data["WidgetType"],
+            "Z_Index" => $maxZ_Index + 1,
+            "Width" => $data["Width"],
+            "Height" => $data["Height"],
+            "Color" => $data["Color"],
+            "PositionX" => $data["PositionX"],
+            "PositionY" => $data["PositionY"],
+        ]);
+        return $widget;
+    }
+
+    public function findWidget($field, $value)
+    {
+        return Widget::where($field, $value)
+        ->where('IsDeleted', false)
+        ->first();
+    }
+
+    public function findMaxZ_Index($IDWorkSpace)
+    {
+        $query = Widget::query();
+        if ($IDWorkSpace) {
+            $query->where('IDWorkSpace', $IDWorkSpace);
+        }
+        $maxZIndex = $query->max('Z_Index');
+        return $maxZIndex !== null ? (int) $maxZIndex : 0;        
+    }
+
+    public function updateIDWidgetChild($IDWidget)
+    {
+        $widget = $this->widgetModel::find($IDWidget);
+        $note = $this->noteService->findNote('IDWidget',$IDWidget);
+        $widget->update([
+            "IDWidgetChild" => $note->IDNote,
+        ]);
+        $widget->save();
+        $widget->refresh();
+        return $widget;
     }
 
     public function GetAllWidgets($IDWorkSpace)
