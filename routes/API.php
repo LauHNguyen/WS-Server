@@ -40,8 +40,9 @@ return function (Router $router) {
    });
 
    //--------------------------------------------------NOTE--------------------------------------------------//
+   
    $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
-      $router->post('/', [NoteController::class, 'createNotewithWidget']);
+      $router->post('/',[NoteController::class,'createNotewithWidget']);
       $router->put('/modify/{IDNote}', [NoteController::class, 'ModifyNote']);
    });
 
@@ -59,7 +60,6 @@ return function (Router $router) {
    });
 
    //--------------------------------------------------TEAM--------------------------------------------------//
-
 
    $router->group(['prefix' => 'team', 'middleware' => 'auth'], function (Router $router) {
       $router->get('/', [TeamController::class, 'getTeamsByIDUser']);
