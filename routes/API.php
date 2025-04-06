@@ -9,6 +9,7 @@ use WorkSpace\Controller\StatusController;
 use WorkSpace\Controller\ProjectController;
 use WorkSpace\Controller\NoteController;
 use WorkSpace\Controller\WidgetController;
+use WorkSpace\Controller\TagController;
 use Middleware\Authenticate;
 
 return function (Router $router) {
@@ -40,9 +41,9 @@ return function (Router $router) {
    });
 
    //--------------------------------------------------NOTE--------------------------------------------------//
-   
+
    $router->group(['prefix' => 'note', 'middleware' => 'auth'], function (Router $router) {
-      $router->post('/',[NoteController::class,'createNotewithWidget']);
+      $router->post('/', [NoteController::class, 'createNotewithWidget']);
       $router->put('/modify/{IDNote}', [NoteController::class, 'ModifyNote']);
    });
 
@@ -71,5 +72,11 @@ return function (Router $router) {
    $router->group(['prefix' => 'status', 'middleware' => 'auth'], function (Router $router) {
       $router->get('/', [StatusController::class, 'getAllStatuses']);
       $router->post('/create', [StatusController::class, 'createStatus']);
+   });
+
+   //--------------------------------------------------TAG--------------------------------------------------//   
+
+   $router->group(['prefix' => 'tag', 'middleware' => 'auth'], function (Router $router) {
+      $router->post('/', [TagController::class, 'createTag']);
    });
 };
