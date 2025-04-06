@@ -13,6 +13,21 @@ class TagController
    {
       $this->tagService = $tagService;
    }
+
+   public function getTagsByIDProject(Request $request, string $IDProject): JsonResponse
+   {
+      try {
+         $tags = $this->tagService->getAllTagsinProject($IDProject);
+         return new JsonResponse([
+            'message' => 'Tag List',
+            'data' => $tags
+         ], 200);
+      } catch (Exception $e) {
+         return new JsonResponse([
+            'message' => "You don't have a Tag yet, let create one! ",
+         ], 400);
+      }
+   }
    public function createTag(Request $request): JsonResponse
    {
       try {

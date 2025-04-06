@@ -77,6 +77,7 @@ return function (Router $router) {
    //--------------------------------------------------TAG--------------------------------------------------//   
 
    $router->group(['prefix' => 'tag', 'middleware' => 'auth'], function (Router $router) {
+      $router->get('/{IDProject}', [TagController::class, 'getTagsByIDProject']);
       $router->post('/', [TagController::class, 'createTag']);
    });
 };

@@ -12,6 +12,15 @@ class TagService
       $this->tagService = $tagService;
    }
 
+   public function getAllTagsinProject($IDProject)
+   {
+      return Tag::select("IDTag", "TagName")
+         ->where([
+            ['IDProject', $IDProject],
+            ['IsDeleted', false]
+         ])->get();
+   }
+
    public function createTag($data)
    {
       $requiredFields =
